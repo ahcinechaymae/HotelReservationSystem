@@ -1,0 +1,25 @@
+ Technical Design Questions – Answers
+
+1-  Suppose we put all the functions inside the same service. Is this the recommended approach? Please explain.
+
+==> No, this is not a recommended approach.Placing all the logic into a single `Service` class violates the "Single Responsibility Principle (SRP)" from SOLID design principles. It makes the code harder to maintain, test, and evolve.
+
+Recommended structure:
+- `UserService`: manage users and balance logic
+- `RoomService`: manage rooms and room updates
+- `BookingService`: handle booking logic and conflicts
+
+By separating responsibilities, we improve modularity, testing, and long-term maintainability.
+
+
+2-  In this design, we chose to have a function `setRoom(..)` that should not impact the previous bookings. What is another way? What is your recommendation? Please explain and justify.
+
+==> Keeping `setRoom(...)` changes isolated from past bookings ensures data consistency and historical traceability. A booking should always reflect the state of the room at the time of reservation.
+
+ Alternatives:
+- Forbid modification of rooms that have existing bookings.
+- Use **versioning or snapshots**, storing a frozen copy of the room when booked.
+
+ Recommendation:
+I recommend the current approach: **do not affect previous bookings**. It keeps business logic simple and ensures reliable record-keeping, which is important in real-world systems.
+
